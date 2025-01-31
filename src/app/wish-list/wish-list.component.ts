@@ -11,7 +11,7 @@ import { WishItem } from '../../shared/models/wishItem';
 export class WishListComponent {
   @Input() wishes : WishItem[] | null = [];
 
-  toggleCheckbox(item : WishItem) : void {
-    item.isComplete = !item.isComplete;
-  }
+  // ngOnChanges(){
+  //   console.log(this.wishes);
+  // }
 }
