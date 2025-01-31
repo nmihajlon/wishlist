@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { WishItem } from '../shared/models/wishItem';
 
+const filters = [
+  (item : WishItem) => item,
+  (item : WishItem) => !item.isComplete,
+  (item : WishItem) => item.isComplete
+]
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,7 +14,6 @@ import { WishItem } from '../shared/models/wishItem';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  newWishText? : string;
   selectedFilter : string = '0';
 
   items : WishItem[] = [
@@ -16,31 +21,12 @@ export class AppComponent {
     new WishItem('Get a job'),
     new WishItem('Learn to code'),
   ];
-  visibleItems : WishItem[] = this.items;
-  
-  toggleCheckbox(item : WishItem) : void {
-    item.isComplete = !item.isComplete;
-    console.log(this.selectedFilter);
-    this.filterChange(this.selectedFilter);
+
+  get visibleItems() : WishItem[] | null{
+    return this.items.filter(filters[Number(this.selectedFilter)]);
   }
 
-  submitForm(event : Event) : void{
-    //dodaj wish u listu
-    //ocisti text-box
-    this.items.push(new WishItem(this.newWishText ?? '', false))
-    this.newWishText = '';
-    this.filterChange(this.selectedFilter);
-  }
-
-  filterChange(event : string) : void{
-    if(event === '0'){
-      this.visibleItems = this.items;
-    }
-    else if(event === '1'){
-      this.visibleItems = this.items.filter((item) => item.isComplete === false);
-    }
-    else if(event ==='2'){
-      this.visibleItems = this.items.filter((item) => item.isComplete === true);
-    }
+  addNewWish(newItem : WishItem) : void {
+    this.items.push(newItem);
   }
 }
