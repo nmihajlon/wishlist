@@ -1,21 +1,44 @@
 <div class="container">
 
-  <div *ngIf="items.length == 0; then noItems else showItems"></div>
+  <form class="row mt-3 gx-3 gy-2 align-items-center justify-content-center">
+    <div class="col-sm-6">
+      <label class="visually-hidden" for="specificSizeInputName">Wish</label>
+      <input name="newWishText" type="text" class="form-control" [(ngModel)]="newWishText">
+    </div>
 
-  <ng-template #noItems>
-    There are no wishes to display.
-  </ng-template>
-  
-  <ng-template #showItems>
-    <ul *ngIf="items.length > 0" class="wish-list">
-      <li *ngFor="let item of items">
-        <div class="form-check">
-          <label class="form-check-label">
-            <input type="checkbox" class="checkbox"> {{item.wishText}}
-          </label>
-        </div>
-      </li>
-    </ul>
-  </ng-template>
+    <div class="col-auto">
+      <button 
+      type="submit" 
+      class="btn btn-primary"
+      (click)="submitForm($event)"
+      >Add Wish</button>
+    </div>
+  </form>
+
+  <div class="row mt-3">
+    <div *ngIf="items.length == 0; then noItems else showItems"></div>
+
+    <ng-template #noItems>
+      There are no wishes to display.
+    </ng-template>
+    
+    <ng-template #showItems>
+      <ul *ngIf="items.length > 0" class="wish-list">
+        <li *ngFor="let item of items; let i = index">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input 
+              type="checkbox" 
+              class="checkbox"
+              [checked]="item.isComplete"
+              [attr.data-index]="i"
+              (click)="toggleCheckbox(item)"
+              > {{item.wishText}}
+            </label>
+          </div>
+        </li>
+      </ul>
+    </ng-template>
+  </div>
   
 </div>

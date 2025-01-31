@@ -8,11 +8,24 @@ import { WishItem } from '../shared/models/wishItem';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  newWishText? : string;
+
   items : WishItem[] = [
     new WishItem('Buy a new car', true),
     new WishItem('Get a job'),
     new WishItem('Learn to code'),
   ];
+  
+  toggleCheckbox(item : WishItem) : void {
+    item.isComplete = !item.isComplete;
+    console.log(item);
+  }
 
-  title = 'wishList';
+  submitForm(event : Event) : void{
+    event.preventDefault();
+    //dodaj wish u listu
+    //ocisti text-box
+    this.items.push(new WishItem(this.newWishText ?? '', false))
+    this.newWishText = '';
+  }
 }
